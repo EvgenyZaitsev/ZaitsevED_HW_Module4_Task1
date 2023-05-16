@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 4.0.3 (Python 3.11.3 on win32)" generated="20230516 01:58:08.155" rpa="false" schemaversion="2">
+<suite id="s1" name="DatabaseTest" source="C:\Users\Evgeny_Zaitsev\Documents\Data Quality Mentoring\ZaitsevED_HW_Module4_Task1\DatabaseTest.robot">
+<kw name="connect to db" library="DatabaseKeywords" type="SETUP">
+<arg>${DriverName}</arg>
+<arg>${DbServer}</arg>
+<arg>${DbName}</arg>
+<arg>${Encrypt}</arg>
+<arg>${DbUser}</arg>
+<arg>${DbPassword}</arg>
+<kw name="create connection string" library="DatabaseKeywords">
+<var>${connection_string}</var>
+<arg>${DriverName}</arg>
+<arg>${DbServer}</arg>
+<arg>${DbName}</arg>
+<arg>${Encrypt}</arg>
+<arg>${DbUser}</arg>
+<arg>${DbPassword}</arg>
+<kw name="Format String" library="String">
+<var>${connection_string}</var>
+<arg>${ConnectionString}</arg>
+<arg>${DriverName}</arg>
+<arg>${DbServer}</arg>
+<arg>${DbName}</arg>
+<arg>${Encrypt}</arg>
+<arg>${DbUser}</arg>
+<arg>${DbPassword}</arg>
+<doc>Formats a ``template`` using the given ``positional`` and ``named`` arguments.</doc>
+<msg timestamp="20230516 01:58:08.268" level="INFO">${connection_string} = 'DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=TRN;ENCRYPT=no;UID=TestLogin;PWD=12345'</msg>
+<status status="PASS" starttime="20230516 01:58:08.267" endtime="20230516 01:58:08.268"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Creating connection string ${connection_string}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230516 01:58:08.269" level="INFO">Creating connection string 'DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=TRN;ENCRYPT=no;UID=TestLogin;PWD=12345'</msg>
+<status status="PASS" starttime="20230516 01:58:08.268" endtime="20230516 01:58:08.269"/>
+</kw>
+<msg timestamp="20230516 01:58:08.269" level="INFO">${connection_string} = 'DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=TRN;ENCRYPT=no;UID=TestLogin;PWD=12345'</msg>
+<status status="PASS" starttime="20230516 01:58:08.266" endtime="20230516 01:58:08.269"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Connecting to database with connection string ${connection_string}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230516 01:58:08.270" level="INFO">Connecting to database with connection string 'DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=TRN;ENCRYPT=no;UID=TestLogin;PWD=12345'</msg>
+<status status="PASS" starttime="20230516 01:58:08.269" endtime="20230516 01:58:08.270"/>
+</kw>
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<arg>pyodbc</arg>
+<arg>${connection_string}</arg>
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to
+connect to the database using the map string `db_custom_param_string`.</doc>
+<msg timestamp="20230516 01:58:08.280" level="INFO">Executing : Connect To Database Using Custom Params : pyodbc.connect(db_api_2.connect('DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost\SQLEXPRESS;DATABASE=TRN;ENCRYPT=no;UID=TestLogin;PWD=12345')) </msg>
+<status status="PASS" starttime="20230516 01:58:08.270" endtime="20230516 01:58:08.388"/>
+</kw>
+<status status="PASS" starttime="20230516 01:58:08.264" endtime="20230516 01:58:08.388"/>
+</kw>
+<test id="s1-t1" name=" Check employees count">
+<kw name="execute script" library="DatabaseKeywords">
+<var>${output}</var>
+<arg>${EmployeesCount}[0]</arg>
+<arg>${EmployeesCount}[1]</arg>
+<kw name="${Script}.format(*${ScriptParams})">
+<var>${compiled_script} =</var>
+<msg timestamp="20230516 01:58:08.395" level="FAIL">No keyword with name '${Script}.format(*${ScriptParams})' found.</msg>
+<status status="FAIL" starttime="20230516 01:58:08.394" endtime="20230516 01:58:08.395"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Executing script ${compiled_script}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" starttime="20230516 01:58:08.395" endtime="20230516 01:58:08.395"/>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<var>${output}</var>
+<arg>SELECT COUNT(*) AS TotalCount FROM hr.employees</arg>
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional
+input `sansTran` to True to run command without an explicit transaction commit or rollback.
+Set optional input `returnAsDict` to True to return values as a list of dictionaries.</doc>
+<status status="NOT RUN" starttime="20230516 01:58:08.395" endtime="20230516 01:58:08.395"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Query result:</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" starttime="20230516 01:58:08.395" endtime="20230516 01:58:08.396"/>
+</kw>
+<kw name="Log Many" library="BuiltIn">
+<arg>${output}</arg>
+<doc>Logs the given messages as separate entries using the INFO level.</doc>
+<status status="NOT RUN" starttime="20230516 01:58:08.396" endtime="20230516 01:58:08.396"/>
+</kw>
+<status status="FAIL" starttime="20230516 01:58:08.390" endtime="20230516 01:58:08.396"/>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${output}[0][0]</arg>
+<arg>${EmployeesCount}[2][0][0]</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="NOT RUN" starttime="20230516 01:58:08.397" endtime="20230516 01:58:08.397"/>
+</kw>
+<status status="FAIL" starttime="20230516 01:58:08.388" endtime="20230516 01:58:08.398">No keyword with name '${Script}.format(*${ScriptParams})' found.</status>
+</test>
+<kw name="Disconnect From Database" library="DatabaseLibrary" type="TEARDOWN">
+<doc>Disconnects from the database.</doc>
+<msg timestamp="20230516 01:58:08.402" level="INFO">Executing : Disconnect From Database</msg>
+<status status="PASS" starttime="20230516 01:58:08.402" endtime="20230516 01:58:08.403"/>
+</kw>
+<doc>Test cases for TRN Database</doc>
+<status status="FAIL" starttime="20230516 01:58:08.159" endtime="20230516 01:58:08.403"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="DatabaseTest">DatabaseTest</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
